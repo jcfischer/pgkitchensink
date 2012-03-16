@@ -1,0 +1,22 @@
+
+p.training {
+  color: blue;
+  font-family: Arial, sans-serif;
+}
+
+#heading {
+  font-family: Arial, sans-serif;
+  font-size: 12pt;
+  
+}
+
+#compass_img {
+  width: 224px;
+  position: fixed;
+    bottom: 0px;
+}
+
+#camera_img {
+  display: block;
+  width: 460;
+}
