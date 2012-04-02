@@ -424,8 +424,74 @@ function onDeviceReady() {
             list.listview('refresh');
 
         }, null, options);
-    }).live('pagehide', function (event) {
+    });
 
+    $("#media").live('pageinit', function (event) {
+        var soundFile = null;
+        var recording = false;
+        function failure(error) {
+            console.log('error: ' + error.code + ', message: ' + error.message);    
+        }
+
+        function success() {
+            console.log('media ready - success');
+            $('#recordButton').show();
+            $('#stopButton').hide();
+            $('#playButton').show();
+        }
+
+        $('#recordButton').hide();
+        $('#stopButton').hide();
+        $('#playButton').hide();
+        console.log('onclick');
+        var path = 'recording.wav'; 
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) { 
+            console.log('file system requested');
+            fileSystem.root.getFile(path, {create: true}, function (fileEntry) { 
+                console.log('file got');
+                soundFile = new Media(fileEntry.fullPath, success, failure); 
+                $('#recordButton').show();
+            }, failure);
+        }, failure);
+
+        $("#recordButton").on('click', function (event) {
+            if (soundFile) {
+                $('#recordButton').hide();
+                $('#stopButton').show();
+                $('#playButton').hide();
+                recording = true;
+                soundFile.startRecord();
+                console.log('recording started');
+            }
+        });
+        
+        $('#stopButton').on('click', function (event) {
+            if (soundFile) {
+                $('#recordButton').show();
+                $('#stopButton').hide();
+                $('#playButton').show();
+                if (recording) {
+                    soundFile.stopRecord();
+                    console.log('recording stopped');
+                    recording = false;
+                }
+                else {
+                    soundFile.stop();
+                    console.log('playback stopped');
+                }
+            }
+        });
+
+        $('#playButton').on('click', function (event) {
+            if (soundFile) {
+                $('#recordButton').hide();
+                $('#stopButton').show();
+                $('#playButton').hide();
+                recording = false;
+                soundFile.play();
+                console.log('file playing');
+            }
+        });
     });
 }
 
