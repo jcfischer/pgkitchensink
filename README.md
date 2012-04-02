@@ -35,6 +35,8 @@ All Rights Reserved.
 
 PhoneGap is a trademark of Adobe.
 
+The file `beep.wav` comes from [Partners in Rhyme][3]
+
 License
 -------
 
@@ -64,4 +66,5 @@ License
 
 [1]:http://phonegap.com/
 [2]:http://phonegap.com/start
+[3]:http://www.partnersinrhyme.com/pirsounds/WEB_DESIGN_SOUNDS_WAV/WEB_DESIGN_sounds/BUTTONS_sounds/buttons_beep1a_wav.shtml
 
