@@ -59,7 +59,7 @@ PGDemo.accelerometer = function () {
     stopWatch:function () {
       stopWatch();
     }
-  }
+  };
 
   return obj;
 
@@ -90,7 +90,7 @@ PGDemo.camera = function () {
     getPicture:function (options) {
       getPicture(options);
     }
-  }
+  };
   return obj;
 }();
 
@@ -165,13 +165,13 @@ PGDemo.connection = function () {
     checkConnection:function () {
       return checkConnection();
     }
-  }
+  };
 }();
 
 
 PGDemo.geolocation = function () {
   var lat = null;
-  var long = null;
+  var lon = null;
   var alt = null;
   var accuracy = null;
   var alt_accuracy = null;
@@ -201,7 +201,7 @@ PGDemo.geolocation = function () {
   function positionChanged(position) {
 
     lat = position.coords.latitude;
-    long = position.coords.longitude;
+    lon = position.coords.longitude;
     alt = position.coords.altitude;
     accuracy = position.coords.accuracy;
     alt_accuracy = position.coords.altitudeAccuracy;
@@ -210,7 +210,7 @@ PGDemo.geolocation = function () {
     timestamp = position.timestamp;
 
     if (obj.callback) {
-      obj.callback({lat:lat, long:long, alt:alt,
+      obj.callback({lat:lat, lon:lon, alt:alt,
         accuracy:accuracy, alt_accuracy:alt_accuracy,
         heading:heading, speed:speed,
         timestamp:timestamp});
@@ -233,7 +233,7 @@ PGDemo.geolocation = function () {
     stopWatch:function () {
       stopWatch();
     }
-  }
+  };
 
   return obj;
 
@@ -260,9 +260,7 @@ function onDeviceReady() {
           $('#accel_z').text(accel.z);
           $('#accel_timestamp').text(accel.timestamp);
         };
-        PGDemo.accelerometer.startWatch()
-
-
+        PGDemo.accelerometer.startWatch();
       }).live('pagehide', function (event) {
         console.log("stop watching accelerometer");
         PGDemo.compass.stopWatch();
@@ -278,13 +276,13 @@ function onDeviceReady() {
         };
         $('#camera_button_normal').tap(function () {
           PGDemo.camera.getPicture({ quality:50, destinationType:Camera.DestinationType.FILE_URI });
-        })
+        });
         $('#camera_button_edit').tap(function () {
           PGDemo.camera.getPicture({ quality:50, allowEdit:true, destinationType:Camera.DestinationType.FILE_URI });
-        })
+        });
         $('#camera_button_library').tap(function () {
           PGDemo.camera.getPicture({ quality:50, allowEdit:true, source:1, destinationType:Camera.DestinationType.FILE_URI  });
-        })
+        });
 
 
       }).live('pagehide', function (event) {
@@ -326,7 +324,7 @@ function onDeviceReady() {
         console.log("started watching geolocation");
         PGDemo.geolocation.callback = function (location) {
           $('#geo_lat').text(location.lat);
-          $('#geo_long').text(location.long);
+          $('#geo_long').text(location.lon);
           $('#geo_alt').text(location.alt);
           $('#geo_acc').text(location.accuracy);
           $('#geo_altacc').text(location.alt_accuracy);
@@ -334,7 +332,7 @@ function onDeviceReady() {
           $('#geo_speed').text(location.speed);
           $('#geo_timestamp').text(location.timestamp);
         };
-        PGDemo.geolocation.startWatch()
+        PGDemo.geolocation.startWatch();
 
 
       }).live('pagehide', function (event) {
@@ -351,16 +349,16 @@ function onDeviceReady() {
 
         $('#notification_alert').tap(function () {
           navigator.notification.alert("I'm an alert", null, "PhoneGap Alert", "Done");
-        })
+        });
         $('#notification_confirm').tap(function () {
           navigator.notification.confirm("Please Confirm", null, "PhoneGap Confirm", "Yes, No");
-        })
+        });
         $('#notification_beep').tap(function () {
           navigator.notification.beep(3);
-        })
+        });
         $('#notification_vibrate').tap(function () {
           navigator.notification.vibrate(1000);
-        })
+        });
 
       }).live('pagehide', function (event) {
         console.log("stop notification");
