@@ -41,7 +41,7 @@ PGDemo.accelerometer = function () {
     }
 
     function accelerationError(accelerationError) {
-        alert('Acceleration error: ' + accelerationError.code);
+        console.log('Acceleration error: ' + accelerationError.code);
     }
 
     var obj = {
@@ -72,7 +72,7 @@ PGDemo.camera = function () {
     }
 
     function cameraFail(message) {
-        alert("Camera failed: " + message);
+        console.log("Camera failed: " + message);
     }
 
     var obj = {
@@ -122,7 +122,7 @@ PGDemo.compass = function () {
     // onError: Failed to get the heading
     //
     function headingError(compassError) {
-        alert('Compass error: ' + compassError.code);
+        console.log('Compass error: ' + compassError.code);
     }
 
     return {
@@ -210,7 +210,7 @@ PGDemo.geolocation = function () {
     }
 
     function positionError(locationError) {
-        alert('Geolocation error: ' + locationError.code);
+        console.log('Geolocation error: ' + locationError.code);
     }
 
     var obj = {
@@ -338,14 +338,94 @@ function onDeviceReady() {
 
     $('#contacts').live('pageinit', function (event) {
         console.log('started contacts');
-        var fields = ["displayName", "name"];
+        var options = new ContactFindOptions();
+        options.multiple = true;
+        options.filter = "";
+        var fields = ["id", "displayName", "name"];
         navigator.contacts.find(fields, function(contacts) {
+            // This callback is executed when the contacts have been retrieved!
+            // The contacts parameter is simply an array of objects
+            // with the specified fields
 
-        }, null, null);
+            // The contacts array is not ordered... so we have to do that!
+            contacts.sort(function (a, b) {
+                // This is adapted from
+                // http://stackoverflow.com/questions/4041762/iterating-over-a-javascript-object-in-sort-order-based-on-particular-key-value-o
+                var an = a.name.formatted;
+                var bn = b.name.formatted; 
+
+                return an == bn ? 0 : (an > bn ? 1 : -1); 
+            });
+
+            var createTapHandler = function(contact) {
+                return function () {
+                    console.log('looking for ' + contact.name.formatted);
+                    var opts = new ContactFindOptions();
+                    opts.multiple = false;
+                    opts.filter = contact.id.toString();
+                    var fields = ["id", "displayName", "name", "emails", "phoneNumbers"];
+                    navigator.contacts.find(fields, function(contacts) {
+                        console.log('found ' + contacts.length + ' contacts');
+                        var person = contacts[0];
+                        console.log('found ' + person.name.formatted);
+                        $.mobile.changePage('#contactdetail');
+
+                        var data = [];
+                        data.push(person.name.formatted);
+
+                        var index = 0;
+                        var len = 0;
+
+                        if (person.emails) {
+                            for (index = 0, len = person.emails.length; index < len; ++index) {
+                                console.log(person.emails[index]);
+                                data.push(person.emails[index].value);
+                            }
+                        }
+
+                        if (person.phoneNumbers) {
+                            for (index = 0, len = person.phoneNumbers.length; index < len; ++index) {
+                                console.log(person.phoneNumbers[index]);
+                                data.push(person.phoneNumbers[index].value);
+                            }
+                        }
+                        
+                        index = 0;
+                        len = 0;
+                        var list = $('#contactdata');
+                        list.empty();
+                        for (index = 0, len = data.length; index < len; ++index) {
+                            var datum = data[index];
+                            var newLi = $('<li>');
+                            var newA = $('<a>');
+                            newA.append(datum);
+                            newLi.append(newA);
+                            list.append(newLi);
+                        }
+                        list.listview('refresh');
+                    }, null, opts);
+                };
+            };
+
+            var index = 0;
+            var len = 0;
+            var list = $('#contactslist');
+            list.empty();
+            console.log("number of items: " + contacts.length);
+            for (index = 0, len = contacts.length; index < len; ++index) {
+                var contact = contacts[index];
+                var newLi = $('<li>');
+                var newA = $('<a>');
+                newA.append(contact.name.formatted);
+                newLi.append(newA);
+                newLi.on('tap', createTapHandler(contact));
+                list.append(newLi);
+            }
+            list.listview('refresh');
+
+        }, null, options);
     }).live('pagehide', function (event) {
 
     });
 }
-
-
 
