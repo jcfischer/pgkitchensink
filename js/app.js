@@ -2,310 +2,288 @@
 //
 document.addEventListener("deviceready", onDeviceReady, false);
 
-
 var PGDemo = {};
 
-
 PGDemo.accelerometer = function () {
-  var x = null;
-  var y = null;
-  var z = null;
-  var timestamp = null;
+    var x = null;
+    var y = null;
+    var z = null;
+    var timestamp = null;
 
-  var watchID = null;
+    var watchID = null;
 
-  // Start watching the accelerometer
-  //
-  function startWatch() {
-    // Update compass every 0.1 seconds
-    var options = { frequency:100 };
-    watchID = navigator.accelerometer.watchAcceleration(accelerationChanged, accelerationError, options);
-  }
-
-  // Stop watching the acceleromter
-  //
-  function stopWatch() {
-    if (watchID) {
-      navigator.accelerometer.clearWatch(watchID);
-      watchID = null;
-    }
-  }
-
-  function accelerationChanged(acceleration) {
-
-    x = acceleration.x;
-    y = acceleration.y;
-    z = acceleration.z;
-    timestamp = acceleration.timestamp;
-
-    if (obj.callback) {
-      obj.callback({x:x, y:y, z:z, timestamp:timestamp});
+    // Start watching the accelerometer
+    //
+    function startWatch() {
+        // Update compass every 0.1 seconds
+        var options = { frequency:100 };
+        watchID = navigator.accelerometer.watchAcceleration(accelerationChanged, accelerationError, options);
     }
 
-  }
-
-  function accelerationError(accelerationError) {
-    alert('Acceleration error: ' + accelerationError.code);
-
-  }
-
-  var obj = {
-    callback:function (accel) {
-      // To be provided by clients
-    },
-    startWatch:function () {
-      startWatch();
-    },
-    stopWatch:function () {
-      stopWatch();
+    // Stop watching the acceleromter
+    //
+    function stopWatch() {
+        if (watchID) {
+            navigator.accelerometer.clearWatch(watchID);
+            watchID = null;
+        }
     }
-  };
 
-  return obj;
+    function accelerationChanged(acceleration) {
+        x = acceleration.x;
+        y = acceleration.y;
+        z = acceleration.z;
+        timestamp = acceleration.timestamp;
 
+        if (obj.callback) {
+            obj.callback({x:x, y:y, z:z, timestamp:timestamp});
+        }
+    }
+
+    function accelerationError(accelerationError) {
+        console.log('Acceleration error: ' + accelerationError.code);
+    }
+
+    var obj = {
+        callback:function (accel) {
+            // To be provided by clients
+        },
+        startWatch:function () {
+            startWatch();
+        },
+        stopWatch:function () {
+            stopWatch();
+        }
+    };
+
+    return obj;
 }();
-
 
 PGDemo.camera = function () {
 
-  function getPicture(options) {
-    navigator.camera.getPicture(cameraSuccess, cameraFail, options);
-  }
-
-  function cameraSuccess(imageData) {
-    if (obj.callback) {
-      obj.callback(imageData);
+    function getPicture(options) {
+        navigator.camera.getPicture(cameraSuccess, cameraFail, options);
     }
-  }
 
-  function cameraFail(message) {
-    alert("Camera failed: " + message);
-  }
-
-  var obj = {
-    callback:function (imageData) {
-      // to be provided by client
-      // $('#img').attr('src', "data:image/jpeg;base64," + imageData);
-    },
-    getPicture:function (options) {
-      getPicture(options);
+    function cameraSuccess(imageData) {
+        if (obj.callback) {
+            obj.callback(imageData);
+        }
     }
-  };
-  return obj;
+
+    function cameraFail(message) {
+        console.log("Camera failed: " + message);
+    }
+
+    var obj = {
+        callback:function (imageData) {
+            // to be provided by client
+            // $('#img').attr('src', "data:image/jpeg;base64," + imageData);
+        },
+        getPicture:function (options) {
+            getPicture(options);
+        }
+    };
+    return obj;
 }();
 
 
 // Compass Demos
 
 PGDemo.compass = function () {
-  // The watch id references the current `watchHeading`
-  var watchID = null;
+    // The watch id references the current `watchHeading`
+    var watchID = null;
 
-  // Start watching the compass
-  //
-  function startWatch() {
-    // Update compass every 1 seconds
-    var options = { frequency:200 };
-    watchID = navigator.compass.watchHeading(headingChanged, headingError, options);
-  }
-
-  // Stop watching the compass
-  //
-  function stopWatch() {
-    if (watchID) {
-      navigator.compass.clearWatch(watchID);
-      watchID = null;
+    // Start watching the compass
+    //
+    function startWatch() {
+        // Update compass every 1 seconds
+        var options = { frequency:200 };
+        watchID = navigator.compass.watchHeading(headingChanged, headingError, options);
     }
-  }
 
-  // onSuccess: Get the current heading
-  //
-  function headingChanged(heading) {
-    $('#compass #heading').html(Math.floor(heading.magneticHeading));
-    // rotate(45deg)
-    $('#compass #compass_img').css('-webkit-transform', "rotate(" + (360 - heading.magneticHeading) + "deg)");
-  }
-
-  // onError: Failed to get the heading
-  //
-  function headingError(compassError) {
-    alert('Compass error: ' + compassError.code);
-  }
-
-  return {
-    startWatch:function () {
-      startWatch();
-    },
-    stopWatch:function () {
-      stopWatch();
+    // Stop watching the compass
+    //
+    function stopWatch() {
+        if (watchID) {
+            navigator.compass.clearWatch(watchID);
+            watchID = null;
+        }
     }
-  };
+
+    // onSuccess: Get the current heading
+    //
+    function headingChanged(heading) {
+        $('#compass #heading').html(Math.floor(heading.magneticHeading));
+        // rotate(45deg)
+        $('#compass #compass_img').css('-webkit-transform', "rotate(" + (360 - heading.magneticHeading) + "deg)");
+    }
+
+    // onError: Failed to get the heading
+    //
+    function headingError(compassError) {
+        console.log('Compass error: ' + compassError.code);
+    }
+
+    return {
+        startWatch:function () {
+            startWatch();
+        },
+        stopWatch:function () {
+            stopWatch();
+        }
+    };
 }();
 
 
 PGDemo.connection = function () {
 
-  function checkConnection() {
-    var networkState = navigator.network.connection.type;
+    function checkConnection() {
+        var networkState = navigator.network.connection.type;
 
-    var states = {};
-    states[Connection.UNKNOWN] = 'Unknown connection';
-    states[Connection.ETHERNET] = 'Ethernet connection';
-    states[Connection.WIFI] = 'WiFi connection';
-    states[Connection.CELL_2G] = 'Cell 2G connection';
-    states[Connection.CELL_3G] = 'Cell 3G connection';
-    states[Connection.CELL_4G] = 'Cell 4G connection';
-    states[Connection.NONE] = 'No network connection';
+        var states = {};
+        states[Connection.UNKNOWN] = 'Unknown connection';
+        states[Connection.ETHERNET] = 'Ethernet connection';
+        states[Connection.WIFI] = 'WiFi connection';
+        states[Connection.CELL_2G] = 'Cell 2G connection';
+        states[Connection.CELL_3G] = 'Cell 3G connection';
+        states[Connection.CELL_4G] = 'Cell 4G connection';
+        states[Connection.NONE] = 'No network connection';
 
-    return states[networkState];
-  }
-
-
-  return {
-    checkConnection:function () {
-      return checkConnection();
+        return states[networkState];
     }
-  };
+
+
+    return {
+        checkConnection:function () {
+            return checkConnection();
+        }
+    };
 }();
 
 
 PGDemo.geolocation = function () {
-  var lat = null;
-  var lon = null;
-  var alt = null;
-  var accuracy = null;
-  var alt_accuracy = null;
-  var heading = null;
-  var speed = null;
-  var timestamp = null;
+    var lat = null;
+    var lon = null;
+    var alt = null;
+    var accuracy = null;
+    var alt_accuracy = null;
+    var heading = null;
+    var speed = null;
+    var timestamp = null;
 
-  var watchID = null;
+    var watchID = null;
 
-  // Start watching the accelerometer
-  //
-  function startWatch() {
-    // Update compass every 1 seconds
-    var options = { maximumAge:3000, timeout:5000, enableHighAccuracy:true };
-    watchID = navigator.geolocation.watchPosition(positionChanged, positionError, options);
-  }
-
-  // Stop watching the acceleromter
-  //
-  function stopWatch() {
-    if (watchID) {
-      navigator.geolocation.clearWatch(watchID);
-      watchID = null;
-    }
-  }
-
-  function positionChanged(position) {
-
-    lat = position.coords.latitude;
-    lon = position.coords.longitude;
-    alt = position.coords.altitude;
-    accuracy = position.coords.accuracy;
-    alt_accuracy = position.coords.altitudeAccuracy;
-    heading = position.coords.heading;
-    speed = position.coords.speed;
-    timestamp = position.timestamp;
-
-    if (obj.callback) {
-      obj.callback({lat:lat, lon:lon, alt:alt,
-        accuracy:accuracy, alt_accuracy:alt_accuracy,
-        heading:heading, speed:speed,
-        timestamp:timestamp});
+    // Start watching the accelerometer
+    //
+    function startWatch() {
+        // Update compass every 1 seconds
+        var options = { maximumAge:3000, timeout:5000, enableHighAccuracy:true };
+        watchID = navigator.geolocation.watchPosition(positionChanged, positionError, options);
     }
 
-  }
-
-  function positionError(locationError) {
-    alert('Geolocation error: ' + locationError.code);
-
-  }
-
-  var obj = {
-    callback:function (location) {
-      // To be provided by clients
-    },
-    startWatch:function () {
-      startWatch();
-    },
-    stopWatch:function () {
-      stopWatch();
+    // Stop watching the acceleromter
+    //
+    function stopWatch() {
+        if (watchID) {
+            navigator.geolocation.clearWatch(watchID);
+            watchID = null;
+        }
     }
-  };
 
-  return obj;
+    function positionChanged(position) {
+        lat = position.coords.latitude;
+        lon = position.coords.longitude;
+        alt = position.coords.altitude;
+        accuracy = position.coords.accuracy;
+        alt_accuracy = position.coords.altitudeAccuracy;
+        heading = position.coords.heading;
+        speed = position.coords.speed;
+        timestamp = position.timestamp;
+
+        if (obj.callback) {
+            obj.callback({lat:lat, lon:lon, alt:alt,
+                         accuracy:accuracy, alt_accuracy:alt_accuracy,
+                         heading:heading, speed:speed,
+                         timestamp:timestamp});
+        }
+    }
+
+    function positionError(locationError) {
+        console.log('Geolocation error: ' + locationError.code);
+    }
+
+    var obj = {
+        callback:function (location) {
+            // To be provided by clients
+        },
+        startWatch:function () {
+            startWatch();
+        },
+        stopWatch:function () {
+            stopWatch();
+        }
+    };
+
+    return obj;
 
 }();
 // PhoneGap is ready
 //
 function onDeviceReady() {
-  $('#compass').live('pageinit',
-      function (event) {
+    $('#compass').live('pageinit', function (event) {
         console.log("started watching compass");
         PGDemo.compass.startWatch();
-      }).live('pagehide', function (event) {
+    }).live('pagehide', function (event) {
         console.log("stop watching compass");
         PGDemo.compass.stopWatch();
-      }
-  );
+    });
 
-  $('#accelerometer').live('pageinit',
-      function (event) {
+    $('#accelerometer').live('pageinit', function (event) {
         console.log("started watching accelerometer");
         PGDemo.accelerometer.callback = function (accel) {
-          $('#accel_x').text(accel.x);
-          $('#accel_y').text(accel.y);
-          $('#accel_z').text(accel.z);
-          $('#accel_timestamp').text(accel.timestamp);
+            $('#accel_x').text(accel.x);
+            $('#accel_y').text(accel.y);
+            $('#accel_z').text(accel.z);
+            $('#accel_timestamp').text(accel.timestamp);
         };
         PGDemo.accelerometer.startWatch();
-      }).live('pagehide', function (event) {
+    }).live('pagehide', function (event) {
         console.log("stop watching accelerometer");
         PGDemo.compass.stopWatch();
         PGDemo.compass.callback = null;
-      }
-  );
+    });
 
-  $('#camera').live('pageinit',
-      function (event) {
+    $('#camera').live('pageinit', function (event) {
         console.log("started camera");
         PGDemo.camera.callback = function (imageUri) {
-          $('#camera_img').attr('src', imageUri);
+            $('#camera_img').attr('src', imageUri);
         };
         $('#camera_button_normal').tap(function () {
-          PGDemo.camera.getPicture({ quality:50, destinationType:Camera.DestinationType.FILE_URI });
+            PGDemo.camera.getPicture({ quality:50, destinationType:Camera.DestinationType.FILE_URI });
         });
         $('#camera_button_edit').tap(function () {
-          PGDemo.camera.getPicture({ quality:50, allowEdit:true, destinationType:Camera.DestinationType.FILE_URI });
+            PGDemo.camera.getPicture({ quality:50, allowEdit:true, destinationType:Camera.DestinationType.FILE_URI });
         });
         $('#camera_button_library').tap(function () {
-          PGDemo.camera.getPicture({ quality:50, allowEdit:true, source:1, destinationType:Camera.DestinationType.FILE_URI  });
+            PGDemo.camera.getPicture({ quality:50, allowEdit:true, source:1, destinationType:Camera.DestinationType.FILE_URI  });
         });
 
-
-      }).live('pagehide', function (event) {
+    }).live('pagehide', function (event) {
         console.log("stop camera");
+    });
 
-      }
-  );
-
-  $('#connection').live('pageinit',
-      function (event) {
+    $('#connection').live('pageinit', function (event) {
         console.log("started connection");
         var status = PGDemo.connection.checkConnection();
         $('#connection_status').text(status);
 
-      }).live('pagehide', function (event) {
+    }).live('pagehide', function (event) {
         console.log("stop connection");
 
-      }
-  );
+    });
 
-
-  $('#device').live('pageinit',
-      function (event) {
+    $('#device').live('pageinit', function (event) {
         console.log("started device");
 
         $('#device_name').text(device.name);
@@ -314,58 +292,206 @@ function onDeviceReady() {
         $('#device_uuid').text(device.uuid);
         $('#device_version').text(device.version);
 
-      }).live('pagehide', function (event) {
+    }).live('pagehide', function (event) {
         console.log("stop device");
+    });
 
-      }
-  );
-  $('#geolocation').live('pageinit',
-      function (event) {
+    $('#geolocation').live('pageinit', function (event) {
         console.log("started watching geolocation");
         PGDemo.geolocation.callback = function (location) {
-          $('#geo_lat').text(location.lat);
-          $('#geo_long').text(location.lon);
-          $('#geo_alt').text(location.alt);
-          $('#geo_acc').text(location.accuracy);
-          $('#geo_altacc').text(location.alt_accuracy);
-          $('#geo_heading').text(location.heading);
-          $('#geo_speed').text(location.speed);
-          $('#geo_timestamp').text(location.timestamp);
+            $('#geo_lat').text(location.lat);
+            $('#geo_long').text(location.lon);
+            $('#geo_alt').text(location.alt);
+            $('#geo_acc').text(location.accuracy);
+            $('#geo_altacc').text(location.alt_accuracy);
+            $('#geo_heading').text(location.heading);
+            $('#geo_speed').text(location.speed);
+            $('#geo_timestamp').text(location.timestamp);
         };
         PGDemo.geolocation.startWatch();
-
-
-      }).live('pagehide', function (event) {
+    }).live('pagehide', function (event) {
         console.log("stop watching geolocation");
         PGDemo.geolocation.stopWatch();
         PGDemo.geolocation.callback = null;
-      }
-  );
+    });
 
 
-  $('#notification').live('pageinit',
-      function (event) {
+    $('#notification').live('pageinit', function (event) {
         console.log("started notifications");
 
         $('#notification_alert').tap(function () {
-          navigator.notification.alert("I'm an alert", null, "PhoneGap Alert", "Done");
+            navigator.notification.alert("I'm an alert", null, "PhoneGap Alert", "Done");
         });
         $('#notification_confirm').tap(function () {
-          navigator.notification.confirm("Please Confirm", null, "PhoneGap Confirm", "Yes, No");
+            navigator.notification.confirm("Please Confirm", null, "PhoneGap Confirm", "Yes, No");
         });
         $('#notification_beep').tap(function () {
-          navigator.notification.beep(3);
+            navigator.notification.beep(3);
         });
         $('#notification_vibrate').tap(function () {
-          navigator.notification.vibrate(1000);
+            navigator.notification.vibrate(1000);
         });
 
-      }).live('pagehide', function (event) {
+    }).live('pagehide', function (event) {
         console.log("stop notification");
+    });
 
-      }
-  );
+    $('#contacts').live('pageinit', function (event) {
+        console.log('started contacts');
+        var options = new ContactFindOptions();
+        options.multiple = true;
+        options.filter = "";
+        var fields = ["id", "displayName", "name"];
+        navigator.contacts.find(fields, function(contacts) {
+            // This callback is executed when the contacts have been retrieved!
+            // The contacts parameter is simply an array of objects
+            // with the specified fields
+
+            // The contacts array is not ordered... so we have to do that!
+            contacts.sort(function (a, b) {
+                // This is adapted from
+                // http://stackoverflow.com/questions/4041762/iterating-over-a-javascript-object-in-sort-order-based-on-particular-key-value-o
+                var an = a.name.formatted;
+                var bn = b.name.formatted; 
+
+                return an == bn ? 0 : (an > bn ? 1 : -1); 
+            });
+
+            var createTapHandler = function(contact) {
+                return function () {
+                    console.log('looking for ' + contact.name.formatted);
+                    var opts = new ContactFindOptions();
+                    opts.multiple = false;
+                    opts.filter = contact.id.toString();
+                    var fields = ["id", "displayName", "name", "emails", "phoneNumbers"];
+                    navigator.contacts.find(fields, function(contacts) {
+                        console.log('found ' + contacts.length + ' contacts');
+                        var person = contacts[0];
+                        console.log('found ' + person.name.formatted);
+                        $.mobile.changePage('#contactdetail');
+
+                        var data = [];
+                        data.push(person.name.formatted);
+
+                        var index = 0;
+                        var len = 0;
+
+                        if (person.emails) {
+                            for (index = 0, len = person.emails.length; index < len; ++index) {
+                                console.log(person.emails[index]);
+                                data.push(person.emails[index].value);
+                            }
+                        }
+
+                        if (person.phoneNumbers) {
+                            for (index = 0, len = person.phoneNumbers.length; index < len; ++index) {
+                                console.log(person.phoneNumbers[index]);
+                                data.push(person.phoneNumbers[index].value);
+                            }
+                        }
+                        
+                        index = 0;
+                        len = 0;
+                        var list = $('#contactdata');
+                        list.empty();
+                        for (index = 0, len = data.length; index < len; ++index) {
+                            var datum = data[index];
+                            var newLi = $('<li>');
+                            var newA = $('<a>');
+                            newA.append(datum);
+                            newLi.append(newA);
+                            list.append(newLi);
+                        }
+                        list.listview('refresh');
+                    }, null, opts);
+                };
+            };
+
+            var index = 0;
+            var len = 0;
+            var list = $('#contactslist');
+            list.empty();
+            console.log("number of items: " + contacts.length);
+            for (index = 0, len = contacts.length; index < len; ++index) {
+                var contact = contacts[index];
+                var newLi = $('<li>');
+                var newA = $('<a>');
+                newA.append(contact.name.formatted);
+                newLi.append(newA);
+                newLi.on('tap', createTapHandler(contact));
+                list.append(newLi);
+            }
+            list.listview('refresh');
+
+        }, null, options);
+    });
+
+    $("#media").live('pageinit', function (event) {
+        var soundFile = null;
+        var recording = false;
+        function failure(error) {
+            console.log('error: ' + error.code + ', message: ' + error.message);    
+        }
+
+        function success() {
+            console.log('media ready - success');
+            $('#recordButton').show();
+            $('#stopButton').hide();
+            $('#playButton').show();
+        }
+
+        $('#recordButton').hide();
+        $('#stopButton').hide();
+        $('#playButton').hide();
+        console.log('onclick');
+        var path = 'recording.wav'; 
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) { 
+            console.log('file system requested');
+            fileSystem.root.getFile(path, {create: true}, function (fileEntry) { 
+                console.log('file got');
+                soundFile = new Media(fileEntry.fullPath, success, failure); 
+                $('#recordButton').show();
+            }, failure);
+        }, failure);
+
+        $("#recordButton").on('click', function (event) {
+            if (soundFile) {
+                $('#recordButton').hide();
+                $('#stopButton').show();
+                $('#playButton').hide();
+                recording = true;
+                soundFile.startRecord();
+                console.log('recording started');
+            }
+        });
+        
+        $('#stopButton').on('click', function (event) {
+            if (soundFile) {
+                $('#recordButton').show();
+                $('#stopButton').hide();
+                $('#playButton').show();
+                if (recording) {
+                    soundFile.stopRecord();
+                    console.log('recording stopped');
+                    recording = false;
+                }
+                else {
+                    soundFile.stop();
+                    console.log('playback stopped');
+                }
+            }
+        });
+
+        $('#playButton').on('click', function (event) {
+            if (soundFile) {
+                $('#recordButton').hide();
+                $('#stopButton').show();
+                $('#playButton').hide();
+                recording = false;
+                soundFile.play();
+                console.log('file playing');
+            }
+        });
+    });
 }
-
-
 
