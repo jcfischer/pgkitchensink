@@ -617,8 +617,9 @@ function onDeviceReady() {
     });
 
     $('#storage').live('pageinit', function () {
+       console.log('in the pageinit of the storage');
         var texts = [
-            "abcdefghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n1234567890\n!@#$%^&*()_-+={}[];'\\:\"|<>?,./",
+            "abcdefghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n1234567890\n!@#$%^&*()_-+={}[]",
             "The quick brown fox jumps over a lazy dog.", 
             "Zwei Boxkämpfer jagen Eva quer durch Sylt.",
             "Pchnąć w tę łódź jeża lub osiem skrzyń fig. Żywioł, jaźń, Świerk.", 
@@ -644,19 +645,17 @@ function onDeviceReady() {
             var selectedText = texts[index];
             window.localStorage['someString'] = selectedText;
             window.sessionStorage['someString'] = selectedText;
-
-            // Now store the same data in a SQL database
-            var db = window.opendatabase('database', '1.0', 'PG Kitchen Sink', 200000);
-            db.transaction(populate, error, success);
-
+            console.log('after storing, now go for the sql');
+                             
             function populate(tx) {
+                console.log('populating database');
                 tx.executeSql('DROP TABLE IF EXISTS RANDOMTEXT');
                 tx.executeSql('CREATE TABLE IF NOT EXISTS RANDOMTEXT (id unique, data)');
-                tx.executeSql('INSERT INTO RANDOMTEXT (id, data) VALUES (1, ' + selectedText + ')');
+                tx.executeSql('INSERT INTO RANDOMTEXT (id, data) VALUES (1, \"' + selectedText + '\")');
             }
 
-            function error(tx, err) {
-                console.log('error: ' + error.code + ', message: ' + error.message);    
+            function error(err) {
+                console.log('error: ' + err.code + ', message: ' + err.message);    
             }
 
             function success() {
@@ -670,9 +669,14 @@ function onDeviceReady() {
                 $('#sessionDataOutput').append('sessionStorage has new data');
                 $('#dbDataOutput').append('db has new data');
             }
+
+            // Now store the same data in a SQL database
+            var db = window.openDatabase('database', '1.0', 'PGKitchenSink', 200000);
+            db.transaction(populate, error, success);
         });
 
-        $('#readButtton').on('tap', function () {
+        $('#readButton').on('tap', function () {
+            console.log('ready to read');
             var localText = window.localStorage.someString;
             var sessionText = window.sessionStorage.someString;
             var dbText = '';
@@ -680,31 +684,33 @@ function onDeviceReady() {
             // To get the data from the database it's a little more
             // complicated
             function query(tx) {
-                tx.executeSql('SELECT * FROM RANDOMTEXT', [], querySuccess, error);
+                console.log('ready to select *');
+                tx.executeSql('SELECT * FROM RANDOMTEXT', [], success, error);
             }
 
-            function querySuccess(tx, results) {
+            function success(tx, results) {
+                console.log('success! reading data');
                 var length = results.rows.length;
                 console.log('numbers of rows: ' + length);
                 if (length > 0) {
                     dbText = results.rows.item(0).data;
                     console.log('text: ' + dbText);
+
+                    $('#localDataOutput').empty();
+                    $('#sessionDataOutput').empty();
+                    $('#dbDataOutput').empty();
+                    $('#localDataOutput').append('localStorage: ' + localText);
+                    $('#sessionDataOutput').append('sessionStorage: ' + sessionText);
+                    $('#dbDataOutput').append('db: ' + dbText);
                 }
             }
 
-            function error(error) {
-                console.log('error: ' + error.code + ', message: ' + error.message);    
+            function error(err) {
+                console.log('error: ' + err.code + ', message: ' + err.message);    
             }
 
-            var db = window.opendatabase('database', '1.0', 'PG Kitchen Sink', 200000);
+            var db = window.openDatabase('database', '1.0', 'PGKitchenSink', 200000);
             db.transaction(query, error);
-            
-            $('#localDataOutput').empty();
-            $('#sessionDataOutput').empty();
-            $('#dbDataOutput').empty();
-            $('#localDataOutput').append('localStorage: ' + localText);
-            $('#sessionDataOutput').append('sessionStorage: ' + sessionText);
-            $('#dbDataOutput').append('db: ' + dbText);
         });
     });
 }
