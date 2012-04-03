@@ -16,6 +16,7 @@ included in the PhoneGap bridge:
 - Connection
 - Contacts
 - Device
+- File
 - Geolocation
 - Media
 - Notification

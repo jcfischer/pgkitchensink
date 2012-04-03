@@ -426,8 +426,9 @@ function onDeviceReady() {
         }, null, options);
     });
 
+    var soundFile = null;
+
     $("#media").live('pageinit', function (event) {
-        var soundFile = null;
         var recording = false;
         function failure(error) {
             console.log('error: ' + error.code + ', message: ' + error.message);    
@@ -490,6 +491,127 @@ function onDeviceReady() {
                 recording = false;
                 soundFile.play();
                 console.log('file playing');
+            }
+        });
+    }).live('pagehide', function () {
+        if (soundFile) {
+            soundFile.release();
+            soundFile = null;
+        }
+    });
+
+    $('#file').live('pageinit', function () {
+       
+        function failure(error) {
+            console.log('error: ' + error.code + ', message: ' + error.message);    
+        }
+        
+        $('#createFileButton').hide();
+        $('#readFileButton').hide();
+        $('#fileInfoButton').hide();
+        $('#deleteFileButton').hide();
+
+        var fileSystem = null;
+        var path = 'file.txt'; 
+        var texts = [
+            "abcdefghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n1234567890\n!@#$%^&*()_-+={}[];'\\:\"|<>?,./",
+            "The quick brown fox jumps over a lazy dog.", 
+            "Zwei Boxkämpfer jagen Eva quer durch Sylt.",
+            "Pchnąć w tę łódź jeża lub osiem skrzyń fig. Żywioł, jaźń, Świerk.", 
+            "Flygande bäckasiner söka strax hwila på mjuka tuvor.",
+            "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            "PhoneGap rocks!",
+            "Mobile web apps rock!",
+            "This code generates random files",
+            "This application is brought to you by http://mobile-training.ch/"
+        ];
+        
+        // This better number generator comes from
+        // http://davidbau.com/archives/2010/01/30/random_seeds_coded_hints_and_quintillions.html
+        Math.seedrandom();
+
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) { 
+            console.log('file system ready');
+            fileSystem = fs;
+            $('#createFileButton').show();
+        }, failure);
+
+        $('#createFileButton').on('tap', function () {
+            if (fileSystem) {
+                fileSystem.root.getFile(path, {create: true}, function (fileEntry) { 
+                    console.log('file got');
+                    fileEntry.createWriter(function (writer) {
+
+                        var index = Math.floor(Math.random() * 10);
+                        var selectedText = texts[index];
+
+                        writer.onwriteend = function (evt) {
+                            console.log('file written!');
+                            $('#fileOutput').empty();
+                            $('#fileOutput').append('File ready to be read!');
+                            $('#createFileButton').hide();
+                            $('#readFileButton').show();
+                            $('#fileInfoButton').show();
+                            $('#deleteFileButton').show();
+                        };
+                        writer.write(selectedText);
+
+                    }, failure);
+                }, failure);
+            }
+        });
+
+        $('#readFileButton').on('tap', function () {
+            if (fileSystem) {
+                fileSystem.root.getFile(path, {create: true}, function (fileEntry) {
+                    console.log('file got, ready to be read');
+                    fileEntry.file(function (file) {
+                        var reader = new FileReader();
+                        reader.onloadend = function(evt) {
+                            console.log("Read as text");
+                            var text = reader.result;
+                            $('#fileOutput').empty();
+                            $('#fileOutput').append(text);
+                        };
+                        reader.readAsText(file);
+                    }, failure);
+                }, failure);
+            }
+        });
+
+        $('#fileInfoButton').on('tap', function () {
+            if (fileSystem) {
+                fileSystem.root.getFile(path, {create: true}, function (fileEntry) {
+                    console.log('file got, ready to get info');
+                    fileEntry.file(function (file) {
+                        var data = [
+                            'Full path: ' + file.fullPath,
+                            'MIME type: ' + file.type,
+                            'Modified on: ' + file.lastModifiedDate,
+                            'Size: ' + file.size
+                        ];
+                        var info = data.join('<br>');
+                        $('#fileOutput').empty();
+                        $('#fileOutput').append(info);
+                    }, failure);
+                }, failure);
+            }
+        });
+
+        $('#deleteFileButton').on('tap', function () {
+            if (fileSystem) {
+                fileSystem.root.getFile(path, { create: true }, function (fileEntry) {
+                    console.log('file got, ready to be removed');
+                    fileEntry.remove(function() {
+                        console.log('file removed!');
+                        $('#fileOutput').empty();
+                        $('#fileOutput').append('File deleted');
+                        $('#createFileButton').show();
+                        $('#readFileButton').hide();
+                        $('#fileInfoButton').hide();
+                        $('#deleteFileButton').hide();
+                    }, failure);
+                }, failure);
             }
         });
     });
