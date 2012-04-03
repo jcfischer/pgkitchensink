@@ -634,6 +634,10 @@ function onDeviceReady() {
         // http://davidbau.com/archives/2010/01/30/random_seeds_coded_hints_and_quintillions.html
         Math.seedrandom();
 
+        // By default, the read button is hidden; it is shown as soon as
+        // all the data is written in the DB
+        $('#readButton').hide();
+
         $('#storeButton').on('tap', function () {
             // Use the localStorage  & sessionStorage to store some strings
             var index = Math.floor(Math.random() * 10);
