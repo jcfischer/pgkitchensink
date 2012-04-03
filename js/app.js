@@ -648,7 +648,7 @@ function onDeviceReady() {
             function populate(tx) {
                 tx.executeSql('DROP TABLE IF EXISTS RANDOMTEXT');
                 tx.executeSql('CREATE TABLE IF NOT EXISTS RANDOMTEXT (id unique, data)');
-                tx.executeSql('INSERT INTO RANDOMTEXT (id, data) VALUES (1, " + selectedText + ")');
+                tx.executeSql('INSERT INTO RANDOMTEXT (id, data) VALUES (1, ' + selectedText + ')');
             }
 
             function error(tx, err) {
@@ -658,11 +658,47 @@ function onDeviceReady() {
             function success() {
                 console.log("database OK");
             }
+            $('localDataOutput').empty();
+            $('sessionDataOutput').empty();
+            $('dbDataOutput').empty();
+            $('localDataOutput').append('localStorage has new data');
+            $('sessionDataOutput').append('sessionStorage has new data');
+            $('dbDataOutput').append('db has new data');
         });
 
         $('#readButtton').on('tap', function () {
-            var text = window.localStorage.someString;
-            $('#dataOutput').append(text);
+            var localText = window.localStorage.someString;
+            var sessionText = window.sessionStorage.someString;
+            var dbText = "";
+
+            // To get the data from the database it's a little more
+            // complicated
+            function query(tx) {
+                tx.executeSql('SELECT * FROM RANDOMTEXT', [], querySuccess, error);
+            }
+
+            function querySuccess(tx, results) {
+                var length = results.rows.length;
+                console.log('numbers of rows: ' + length);
+                if (length > 0) {
+                    dbText = results.rows.item(0).data;
+                    console.log('text: ' + dbText);
+                }
+            }
+
+            function error(error) {
+                console.log('error: ' + error.code + ', message: ' + error.message);    
+            }
+
+            var db = window.opendatabase('database', '1.0', 'PG Kitchen Sink', 200000);
+            db.transaction(query, error);
+            
+            $('localDataOutput').empty();
+            $('sessionDataOutput').empty();
+            $('dbDataOutput').empty();
+            $('localDataOutput').append('localStorage: ' + localText);
+            $('sessionDataOutput').append('sessionStorage: ' + sessionText);
+            $('dbDataOutput').append('db: ' + dbText);
         });
     });
 }
