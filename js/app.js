@@ -346,18 +346,16 @@ PGDemo.storage = function () {
             window.sessionStorage['someString'] = selectedText;
             console.log('after storing, now go for the sql');
 
-            function populate(tx) {
+            // Now store the same data in a SQL database
+            var db = window.openDatabase('database', '1.0', 'PGKitchenSink', 200000);
+            db.transaction(function(tx) {
                 console.log('populating database');
                 tx.executeSql('DROP TABLE IF EXISTS RANDOMTEXT');
                 tx.executeSql('CREATE TABLE IF NOT EXISTS RANDOMTEXT (id unique, data)');
                 tx.executeSql('INSERT INTO RANDOMTEXT (id, data) VALUES (1, \"' + selectedText + '\")');
-            }
-
-            function error(err) {
+            }, function(err) {
                 console.log('error: ' + err.code + ', message: ' + err.message);    
-            }
-
-            function success() {
+            }, function() {
                 console.log('database OK');
 
                 $('#readButton').show();
@@ -367,11 +365,7 @@ PGDemo.storage = function () {
                 $('#localDataOutput').append('localStorage has new data');
                 $('#sessionDataOutput').append('sessionStorage has new data');
                 $('#dbDataOutput').append('db has new data');
-            }
-
-            // Now store the same data in a SQL database
-            var db = window.openDatabase('database', '1.0', 'PGKitchenSink', 200000);
-            db.transaction(populate, error, success);
+            });
         },
 
         read: function() {
