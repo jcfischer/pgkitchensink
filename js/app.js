@@ -652,24 +652,26 @@ function onDeviceReady() {
             }
 
             function error(tx, err) {
-                console.log("error: " + err.description);
+                console.log('error: ' + error.code + ', message: ' + error.message);    
             }
 
             function success() {
-                console.log("database OK");
+                console.log('database OK');
+
+                $('#readButton').show();
+                $('#localDataOutput').empty();
+                $('#sessionDataOutput').empty();
+                $('#dbDataOutput').empty();
+                $('#localDataOutput').append('localStorage has new data');
+                $('#sessionDataOutput').append('sessionStorage has new data');
+                $('#dbDataOutput').append('db has new data');
             }
-            $('localDataOutput').empty();
-            $('sessionDataOutput').empty();
-            $('dbDataOutput').empty();
-            $('localDataOutput').append('localStorage has new data');
-            $('sessionDataOutput').append('sessionStorage has new data');
-            $('dbDataOutput').append('db has new data');
         });
 
         $('#readButtton').on('tap', function () {
             var localText = window.localStorage.someString;
             var sessionText = window.sessionStorage.someString;
-            var dbText = "";
+            var dbText = '';
 
             // To get the data from the database it's a little more
             // complicated
@@ -693,12 +695,12 @@ function onDeviceReady() {
             var db = window.opendatabase('database', '1.0', 'PG Kitchen Sink', 200000);
             db.transaction(query, error);
             
-            $('localDataOutput').empty();
-            $('sessionDataOutput').empty();
-            $('dbDataOutput').empty();
-            $('localDataOutput').append('localStorage: ' + localText);
-            $('sessionDataOutput').append('sessionStorage: ' + sessionText);
-            $('dbDataOutput').append('db: ' + dbText);
+            $('#localDataOutput').empty();
+            $('#sessionDataOutput').empty();
+            $('#dbDataOutput').empty();
+            $('#localDataOutput').append('localStorage: ' + localText);
+            $('#sessionDataOutput').append('sessionStorage: ' + sessionText);
+            $('#dbDataOutput').append('db: ' + dbText);
         });
     });
 }
