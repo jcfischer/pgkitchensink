@@ -635,10 +635,29 @@ function onDeviceReady() {
         Math.seedrandom();
 
         $('#storeButton').on('tap', function () {
-            // Use the localStorage to store some strings
+            // Use the localStorage  & sessionStorage to store some strings
             var index = Math.floor(Math.random() * 10);
             var selectedText = texts[index];
             window.localStorage['someString'] = selectedText;
+            window.sessionStorage['someString'] = selectedText;
+
+            // Now store the same data in a SQL database
+            var db = window.opendatabase('database', '1.0', 'PG Kitchen Sink', 200000);
+            db.transaction(populate, error, success);
+
+            function populate(tx) {
+                tx.executeSql('DROP TABLE IF EXISTS RANDOMTEXT');
+                tx.executeSql('CREATE TABLE IF NOT EXISTS RANDOMTEXT (id unique, data)');
+                tx.executeSql('INSERT INTO RANDOMTEXT (id, data) VALUES (1, " + selectedText + ")');
+            }
+
+            function error(tx, err) {
+                console.log("error: " + err.description);
+            }
+
+            function success() {
+                console.log("database OK");
+            }
         });
 
         $('#readButtton').on('tap', function () {
