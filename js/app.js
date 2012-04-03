@@ -615,5 +615,36 @@ function onDeviceReady() {
             }
         });
     });
+
+    $('#storage').live('pageinit', function () {
+        var texts = [
+            "abcdefghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n1234567890\n!@#$%^&*()_-+={}[];'\\:\"|<>?,./",
+            "The quick brown fox jumps over a lazy dog.", 
+            "Zwei Boxkämpfer jagen Eva quer durch Sylt.",
+            "Pchnąć w tę łódź jeża lub osiem skrzyń fig. Żywioł, jaźń, Świerk.", 
+            "Flygande bäckasiner söka strax hwila på mjuka tuvor.",
+            "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            "PhoneGap rocks!",
+            "Mobile web apps rock!",
+            "This code generates random files",
+            "This application is brought to you by http://mobile-training.ch/"
+        ];
+
+        // This better number generator comes from
+        // http://davidbau.com/archives/2010/01/30/random_seeds_coded_hints_and_quintillions.html
+        Math.seedrandom();
+
+        $('#storeButton').on('tap', function () {
+            // Use the localStorage to store some strings
+            var index = Math.floor(Math.random() * 10);
+            var selectedText = texts[index];
+            window.localStorage['someString'] = selectedText;
+        });
+
+        $('#readButtton').on('tap', function () {
+            var text = window.localStorage.someString;
+            $('#dataOutput').append(text);
+        });
+    });
 }
 
