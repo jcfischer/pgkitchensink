@@ -320,10 +320,14 @@ function onDeviceReady() {
         console.log("started notifications");
 
         $('#notification_alert').tap(function () {
-            navigator.notification.alert("I'm an alert", null, "PhoneGap Alert", "Done");
+            navigator.notification.alert("I'm an alert", function () {
+                console.log('The alert has been dismissed');
+            }, "PhoneGap Alert", "Done");
         });
         $('#notification_confirm').tap(function () {
-            navigator.notification.confirm("Please Confirm", null, "PhoneGap Confirm", "Yes, No");
+            navigator.notification.confirm("Please Confirm", function (button) {
+                console.log('The confirmation was dismissed, ' + button + ' was pressed');
+            }, "PhoneGap Confirm", "Yes, No");
         });
         $('#notification_beep').tap(function () {
             navigator.notification.beep(3);
