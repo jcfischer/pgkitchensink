@@ -228,6 +228,183 @@ PGDemo.geolocation = function () {
     return obj;
 
 }();
+
+PGDemo.media = function() {
+    var recording = false;
+    var soundFile = null;
+    var path = 'recording.wav'; 
+
+    function failure(error) {
+        console.log('error: ' + error.code + ', message: ' + error.message);    
+    }
+
+    function success() {
+        console.log('media ready - success');
+        $('#recordButton').show();
+        $('#stopButton').hide();
+        $('#playButton').show();
+    }
+
+    return {
+        init: function() {
+            $('#recordButton').hide();
+            $('#stopButton').hide();
+            $('#playButton').hide();
+        },
+
+        show: function () {
+            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) { 
+                console.log('file system requested');
+                fileSystem.root.getFile(path, {create: true}, function (fileEntry) { 
+                    console.log('file got');
+                    soundFile = new Media(fileEntry.fullPath, success, failure); 
+                    $('#recordButton').show();
+                }, failure);
+            }, failure);
+        },
+
+        record: function () {
+            if (soundFile) {
+                $('#recordButton').hide();
+                $('#stopButton').show();
+                $('#playButton').hide();
+                recording = true;
+                soundFile.startRecord();
+                console.log('recording started');
+            }
+        },
+
+        play: function () {
+            if (soundFile) {
+                $('#recordButton').hide();
+                $('#stopButton').show();
+                $('#playButton').hide();
+                recording = false;
+                soundFile.play();
+                console.log('file playing');
+            }
+        },
+
+        stop: function () {
+            if (soundFile) {
+                $('#recordButton').show();
+                $('#stopButton').hide();
+                $('#playButton').show();
+                if (recording) {
+                    soundFile.stopRecord();
+                    console.log('recording stopped');
+                    recording = false;
+                }
+                else {
+                    soundFile.stop();
+                    console.log('playback stopped');
+                }
+            }
+        },
+
+        hide: function () {
+            if (soundFile) {
+                soundFile.release();
+                soundFile = null;
+            }
+        }
+    };
+}();
+
+PGDemo.storage = function () {
+    var texts = [
+        "abcdefghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n1234567890\n!@#$%^&*()_-+={}[]",
+        "The quick brown fox jumps over a lazy dog.", 
+        "Zwei Boxkämpfer jagen Eva quer durch Sylt.",
+        "Pchnąć w tę łódź jeża lub osiem skrzyń fig. Żywioł, jaźń, Świerk.", 
+        "Flygande bäckasiner söka strax hwila på mjuka tuvor.",
+        "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "PhoneGap rocks!",
+        "Mobile web apps rock!",
+        "This code generates random files",
+        "This application is brought to you by http://mobile-training.ch/"
+    ];
+    
+    return {
+        init: function() {
+            console.log('in the pageinit of the storage');
+
+            // This better number generator comes from
+            // http://davidbau.com/archives/2010/01/30/random_seeds_coded_hints_and_quintillions.html
+            Math.seedrandom();
+
+            // By default, the read button is hidden; it is shown as soon as
+            // all the data is written in the DB
+            $('#readButton').hide();
+        },
+
+        store: function () {
+            // Use the localStorage  & sessionStorage to store some strings
+            var index = Math.floor(Math.random() * 10);
+            var selectedText = texts[index];
+            window.localStorage['someString'] = selectedText;
+            window.sessionStorage['someString'] = selectedText;
+            console.log('after storing, now go for the sql');
+
+            // Now store the same data in a SQL database
+            var db = window.openDatabase('database', '1.0', 'PGKitchenSink', 200000);
+            db.transaction(function(tx) {
+                console.log('populating database');
+                tx.executeSql('DROP TABLE IF EXISTS RANDOMTEXT');
+                tx.executeSql('CREATE TABLE IF NOT EXISTS RANDOMTEXT (id unique, data)');
+                tx.executeSql('INSERT INTO RANDOMTEXT (id, data) VALUES (1, \"' + selectedText + '\")');
+            }, function(err) {
+                console.log('error: ' + err.code + ', message: ' + err.message);    
+            }, function() {
+                console.log('database OK');
+
+                $('#readButton').show();
+                $('#localDataOutput').empty();
+                $('#sessionDataOutput').empty();
+                $('#dbDataOutput').empty();
+                $('#localDataOutput').append('localStorage has new data');
+                $('#sessionDataOutput').append('sessionStorage has new data');
+                $('#dbDataOutput').append('db has new data');
+            });
+        },
+
+        read: function() {
+            console.log('ready to read');
+            var localText = window.localStorage.someString;
+            var sessionText = window.sessionStorage.someString;
+            var dbText = '';
+
+            // To get the data from the database it's a little more
+            // complicated
+
+            function error(err) {
+                console.log('error: ' + err.code + ', message: ' + err.message);    
+            }
+
+            var db = window.openDatabase('database', '1.0', 'PGKitchenSink', 200000);
+            db.transaction(function(tx) {
+                console.log('ready to select *');
+                tx.executeSql('SELECT * FROM RANDOMTEXT', [], function(tx, results) {
+                    console.log('success! reading data');
+                    var length = results.rows.length;
+                    console.log('numbers of rows: ' + length);
+                    if (length > 0) {
+                        dbText = results.rows.item(0).data;
+                        console.log('text: ' + dbText);
+
+                        $('#localDataOutput').empty();
+                        $('#sessionDataOutput').empty();
+                        $('#dbDataOutput').empty();
+                        $('#localDataOutput').append('localStorage: ' + localText);
+                        $('#sessionDataOutput').append('sessionStorage: ' + sessionText);
+                        $('#dbDataOutput').append('db: ' + dbText);
+                    }
+                }, error);
+            }, error);
+        }
+    };
+}();
+
 // PhoneGap is ready
 //
 function onDeviceReady() {
@@ -320,10 +497,14 @@ function onDeviceReady() {
         console.log("started notifications");
 
         $('#notification_alert').tap(function () {
-            navigator.notification.alert("I'm an alert", null, "PhoneGap Alert", "Done");
+            navigator.notification.alert("I'm an alert", function () {
+                console.log('The alert has been dismissed');
+            }, "PhoneGap Alert", "Done");
         });
         $('#notification_confirm').tap(function () {
-            navigator.notification.confirm("Please Confirm", null, "PhoneGap Confirm", "Yes, No");
+            navigator.notification.confirm("Please Confirm", function (button) {
+                console.log('The confirmation was dismissed, ' + button + ' was pressed');
+            }, "PhoneGap Confirm", "Yes, No");
         });
         $('#notification_beep').tap(function () {
             navigator.notification.beep(3);
@@ -426,78 +607,26 @@ function onDeviceReady() {
         }, null, options);
     });
 
-    var soundFile = null;
 
     $("#media").live('pageinit', function (event) {
-        var recording = false;
-        function failure(error) {
-            console.log('error: ' + error.code + ', message: ' + error.message);    
-        }
-
-        function success() {
-            console.log('media ready - success');
-            $('#recordButton').show();
-            $('#stopButton').hide();
-            $('#playButton').show();
-        }
-
-        $('#recordButton').hide();
-        $('#stopButton').hide();
-        $('#playButton').hide();
-        console.log('onclick');
-        var path = 'recording.wav'; 
-        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) { 
-            console.log('file system requested');
-            fileSystem.root.getFile(path, {create: true}, function (fileEntry) { 
-                console.log('file got');
-                soundFile = new Media(fileEntry.fullPath, success, failure); 
-                $('#recordButton').show();
-            }, failure);
-        }, failure);
+        PGDemo.media.init();
 
         $("#recordButton").on('click', function (event) {
-            if (soundFile) {
-                $('#recordButton').hide();
-                $('#stopButton').show();
-                $('#playButton').hide();
-                recording = true;
-                soundFile.startRecord();
-                console.log('recording started');
-            }
+            PGDemo.media.record();
         });
-        
+
         $('#stopButton').on('click', function (event) {
-            if (soundFile) {
-                $('#recordButton').show();
-                $('#stopButton').hide();
-                $('#playButton').show();
-                if (recording) {
-                    soundFile.stopRecord();
-                    console.log('recording stopped');
-                    recording = false;
-                }
-                else {
-                    soundFile.stop();
-                    console.log('playback stopped');
-                }
-            }
+            PGDemo.media.stop();
         });
 
         $('#playButton').on('click', function (event) {
-            if (soundFile) {
-                $('#recordButton').hide();
-                $('#stopButton').show();
-                $('#playButton').hide();
-                recording = false;
-                soundFile.play();
-                console.log('file playing');
-            }
+            PGDemo.media.play();
         });
+
+    }).live('pageshow', function () {
+        PGDemo.media.show();
     }).live('pagehide', function () {
-        if (soundFile) {
-            soundFile.release();
-            soundFile = null;
-        }
+        PGDemo.media.hide();
     });
 
     $('#file').live('pageinit', function () {
@@ -614,6 +743,19 @@ function onDeviceReady() {
                 }, failure);
             }
         });
+    });
+
+    $('#storage').live('pageinit', function () {
+        PGDemo.storage.init();
+
+        $('#storeButton').on('tap', function () {
+            PGDemo.storage.store();
+        });
+
+        $('#readButton').on('tap', function () {
+            PGDemo.storage.read();
+        });
+
     });
 }
 
