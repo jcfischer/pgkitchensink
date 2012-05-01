@@ -55,3 +55,16 @@ mv $LIBS/phonegap-phonegap-1564354/ $LIBS/phonegap
 # Remove the zip file
 rm $LIBS/phonegap.zip
 
+
+
+
+echo
+echo "###############################"
+echo "#"
+echo "# Copying files to the Xcode project"
+echo "#"
+echo "###############################"
+cp -R www/* native/iOS/KitchenSink/www
+cp -R _libs native/iOS/KitchenSink/www
+rm -r native/iOS/KitchenSink/www/_libs/phonegap
+
