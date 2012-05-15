@@ -1,0 +1,382 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1C1F9EF6-DE13-4C47-AA33-73BECB2BDBA4}</ProjectGuid>
+    <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>KitchenSink</RootNamespace>
+    <AssemblyName>KitchenSink</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <TargetFrameworkProfile>WindowsPhone71</TargetFrameworkProfile>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <SilverlightApplication>true</SilverlightApplication>
+    <SupportedCultures>
+    </SupportedCultures>
+    <XapOutputs>true</XapOutputs>
+    <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
+    <XapFilename>KitchenSink.xap</XapFilename>
+    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
+    <SilverlightAppEntry>KitchenSink.App</SilverlightAppEntry>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Phone" />
+    <Reference Include="Microsoft.Phone.Interop" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WP7CordovaClassLib, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+    <Page Include="MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CordovaSourceDictionary.xml" />
+    <Content Include="www\css\app.css" />
+    <Resource Include="www\images\Compass-Rose.png" />
+    <Content Include="www\index.html" />
+    <Content Include="www\js\app.js" />
+    <Content Include="www\js\seedrandom-min.js" />
+    <Content Include="www\res\beep.wav" />
+    <Resource Include="www\_libs\jqm\demos\css\themes\default\images\ajax-loader.gif" />
+    <Resource Include="www\_libs\jqm\demos\css\themes\default\images\ajax-loader.png" />
+    <Resource Include="www\_libs\jqm\demos\css\themes\default\images\icons-18-black.png" />
+    <Resource Include="www\_libs\jqm\demos\css\themes\default\images\icons-18-white.png" />
+    <Resource Include="www\_libs\jqm\demos\css\themes\default\images\icons-36-black.png" />
+    <Resource Include="www\_libs\jqm\demos\css\themes\default\images\icons-36-white.png" />
+    <Content Include="www\_libs\jqm\demos\css\themes\default\jquery.mobile-1.1.0.css" />
+    <Content Include="www\_libs\jqm\demos\css\themes\default\jquery.mobile-1.1.0.min.css" />
+    <Content Include="www\_libs\jqm\demos\css\themes\default\jquery.mobile.structure-1.1.0.css" />
+    <Content Include="www\_libs\jqm\demos\css\themes\default\jquery.mobile.structure-1.1.0.min.css" />
+    <Content Include="www\_libs\jqm\demos\css\themes\default\jquery.mobile.theme-1.1.0.css" />
+    <Content Include="www\_libs\jqm\demos\css\themes\default\jquery.mobile.theme-1.1.0.min.css" />
+    <Content Include="www\_libs\jqm\demos\docs\about\accessibility.html" />
+    <Content Include="www\_libs\jqm\demos\docs\about\features.html" />
+    <Content Include="www\_libs\jqm\demos\docs\about\getting-started.html" />
+    <Content Include="www\_libs\jqm\demos\docs\about\index.html" />
+    <Content Include="www\_libs\jqm\demos\docs\about\intro.html" />
+    <Content Include="www\_libs\jqm\demos\docs\about\platforms.html" />
+    <Content Include="www\_libs\jqm\demos\docs\api\data-attributes.html" />
+    <Content Include="www\_libs\jqm\demos\docs\api\events-nav.html" />
+    <Content Include="www\_libs\jqm\demos\docs\api\events.html" />
+    <Content Include="www\_libs\jqm\demos\docs\api\globalconfig.html" />
+    <Content Include="www\_libs\jqm\demos\docs\api\index.html" />
+    <Content Include="www\_libs\jqm\demos\docs\api\mediahelpers.html" />
+    <Content Include="www\_libs\jqm\demos\docs\api\methods.html" />
+    <Content Include="www\_libs\jqm\demos\docs\api\themes.html" />
+    <Content Include="www\_libs\jqm\demos\docs\buttons\api-buttons.html" />
+    <Content Include="www\_libs\jqm\demos\docs\buttons\buttons-events.html" />
+    <Content Include="www\_libs\jqm\demos\docs\buttons\buttons-grouped.html" />
+    <Content Include="www\_libs\jqm\demos\docs\buttons\buttons-icons.html" />
+    <Content Include="www\_libs\jqm\demos\docs\buttons\buttons-inline.html" />
+    <Content Include="www\_libs\jqm\demos\docs\buttons\buttons-methods.html" />
+    <Content Include="www\_libs\jqm\demos\docs\buttons\buttons-options.html" />
+    <Content Include="www\_libs\jqm\demos\docs\buttons\buttons-themes.html" />
+    <Content Include="www\_libs\jqm\demos\docs\buttons\buttons-types.html" />
+    <Content Include="www\_libs\jqm\demos\docs\buttons\index.html" />
+    <Content Include="www\_libs\jqm\demos\docs\config\dialogTransition.html" />
+    <Content Include="www\_libs\jqm\demos\docs\config\index.html" />
+    <Content Include="www\_libs\jqm\demos\docs\config\iOSFullscreen.html" />
+    <Content Include="www\_libs\jqm\demos\docs\config\jq17b1.html" />
+    <Content Include="www\_libs\jqm\demos\docs\config\loadingMessage.html" />
+    <Content Include="www\_libs\jqm\demos\docs\config\loadingMessageTextVisible.html" />
+    <Content Include="www\_libs\jqm\demos\docs\config\minScrollBack.html" />
+    <Content Include="www\_libs\jqm\demos\docs\config\pageLoadErrorMessage.html" />
+    <Content Include="www\_libs\jqm\demos\docs\config\pageTransition.html" />
+    <Content Include="www\_libs\jqm\demos\docs\config\pushState.html" />
+    <Content Include="www\_libs\jqm\demos\docs\config\touchOverflow.html" />
+    <Content Include="www\_libs\jqm\demos\docs\content\api-content.html" />
+    <Content Include="www\_libs\jqm\demos\docs\content\content-collapsible-events.html" />
+    <Content Include="www\_libs\jqm\demos\docs\content\content-collapsible-methods.html" />
+    <Content Include="www\_libs\jqm\demos\docs\content\content-collapsible-options.html" />
+    <Content Include="www\_libs\jqm\demos\docs\content\content-collapsible-set-events.html" />
+    <Content Include="www\_libs\jqm\demos\docs\content\content-collapsible-set-methods.html" />
+    <Content Include="www\_libs\jqm\demos\docs\content\content-collapsible-set-options.html" />
+    <Content Include="www\_libs\jqm\demos\docs\content\content-collapsible-set.html" />
+    <Content Include="www\_libs\jqm\demos\docs\content\content-collapsible.html" />
+    <Content Include="www\_libs\jqm\demos\docs\content\content-grids.html" />
+    <Content Include="www\_libs\jqm\demos\docs\content\content-html.html" />
+    <Content Include="www\_libs\jqm\demos\docs\content\content-themes.html" />
+    <Content Include="www\_libs\jqm\demos\docs\content\index.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\checkboxes\events.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\checkboxes\index.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\checkboxes\methods.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\checkboxes\options.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\docs-forms.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\forms-all-compare.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\forms-all-mini.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\forms-all-native.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\forms-all.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\forms-sample.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\forms-themes.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\index.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\plugin-eventsmethods.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\radiobuttons\events.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\radiobuttons\index.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\radiobuttons\methods.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\radiobuttons\options.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\search\events.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\search\index.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\search\methods.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\search\options.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\selects\custom.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\selects\events.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\selects\index.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\selects\methods.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\selects\options.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\slider\events.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\slider\index.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\slider\methods.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\slider\options.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\switch\events.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\switch\index.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\switch\methods.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\switch\options.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\textinputs\events.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\textinputs\index.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\textinputs\methods.html" />
+    <Content Include="www\_libs\jqm\demos\docs\forms\textinputs\options.html" />
+    <Content Include="www\_libs\jqm\demos\docs\index.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\docs-lists.html" />
+    <Resource Include="www\_libs\jqm\demos\docs\lists\images\album-af.jpg" />
+    <Resource Include="www\_libs\jqm\demos\docs\lists\images\album-ag.jpg" />
+    <Resource Include="www\_libs\jqm\demos\docs\lists\images\album-bb.jpg" />
+    <Resource Include="www\_libs\jqm\demos\docs\lists\images\album-bk.jpg" />
+    <Resource Include="www\_libs\jqm\demos\docs\lists\images\album-hc.jpg" />
+    <Resource Include="www\_libs\jqm\demos\docs\lists\images\album-k.jpg" />
+    <Resource Include="www\_libs\jqm\demos\docs\lists\images\album-mg.jpg" />
+    <Resource Include="www\_libs\jqm\demos\docs\lists\images\album-ok.jpg" />
+    <Resource Include="www\_libs\jqm\demos\docs\lists\images\album-p.jpg" />
+    <Resource Include="www\_libs\jqm\demos\docs\lists\images\album-rh.jpg" />
+    <Resource Include="www\_libs\jqm\demos\docs\lists\images\album-ws.jpg" />
+    <Resource Include="www\_libs\jqm\demos\docs\lists\images\album-xx.jpg" />
+    <Resource Include="www\_libs\jqm\demos\docs\lists\images\de.png" />
+    <Resource Include="www\_libs\jqm\demos\docs\lists\images\fi.png" />
+    <Resource Include="www\_libs\jqm\demos\docs\lists\images\gb.png" />
+    <Resource Include="www\_libs\jqm\demos\docs\lists\images\gf.png" />
+    <Resource Include="www\_libs\jqm\demos\docs\lists\images\sj.png" />
+    <Resource Include="www\_libs\jqm\demos\docs\lists\images\us.png" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\index.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-all-full.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-count.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-divider.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-events.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-formatting.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-forms-inset.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-forms.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-icons.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-inset.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-methods.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-nested.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-ol.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-options.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-performance.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-readonly-inset.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-readonly.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-search-filtertext.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-search-inset.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-search-with-dividers.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-search.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-split-purchase.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-split.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-themes.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-thumbnails.html" />
+    <Content Include="www\_libs\jqm\demos\docs\lists\lists-ul.html" />
+    <Content Include="www\_libs\jqm\demos\docs\nav.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\dialog-alt.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\dialog-buttons.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\dialog-overlay.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\dialog-success.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\dialog-with-select.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\dialog.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\docs-links-urltest\index.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\dynamic-samples\animals.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\dynamic-samples\colors.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\dynamic-samples\index.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\dynamic-samples\sample-reuse-page-external.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\dynamic-samples\sample-reuse-page.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\dynamic-samples\vehicles.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\index.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\multipage-template.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\page-anatomy.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\page-cache.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\page-customtransitions.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\page-dialogs.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\page-dynamic.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\page-links.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\page-navmodel.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\page-scripting.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\page-template.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\page-titles.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\page-transitions-dialog.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\page-transitions-page.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\page-transitions.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\pages-themes.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\pages-themes\theme-a.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\pages-themes\theme-b.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\pages-themes\theme-c.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\pages-themes\theme-d.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\pages-themes\theme-e.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\phonegap.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\touchoverflow.html" />
+    <Content Include="www\_libs\jqm\demos\docs\pages\transition-success.html" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\bars-fixed-events.html" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\bars-fixed-forms-a.html" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\bars-fixed-forms-b.html" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\bars-fixed-forms-c.html" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\bars-fixed-forms-d.html" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\bars-fixed-forms-e.html" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\bars-fixed-forms-f.html" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\bars-fixed-forms-g.html" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\bars-fixed-forms-h.html" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\bars-fixed-forms.html" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\bars-fixed-methods.html" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\bars-fixed-options.html" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\bars-fixed.html" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\bars-fullscreen.html" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\bars-themes.html" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\docs-bars.html" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\docs-footers.html" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\docs-headers.html" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\docs-navbar.html" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\footer-persist-a.html" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\footer-persist-b.html" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\footer-persist-c.html" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\footer-persist-d.html" />
+    <Resource Include="www\_libs\jqm\demos\docs\toolbars\glyphish-icons\09-chat2.png" />
+    <Resource Include="www\_libs\jqm\demos\docs\toolbars\glyphish-icons\100-coffee.png" />
+    <Resource Include="www\_libs\jqm\demos\docs\toolbars\glyphish-icons\18-envelope.png" />
+    <Resource Include="www\_libs\jqm\demos\docs\toolbars\glyphish-icons\19-gear.png" />
+    <Resource Include="www\_libs\jqm\demos\docs\toolbars\glyphish-icons\21-skull.png" />
+    <Resource Include="www\_libs\jqm\demos\docs\toolbars\glyphish-icons\30-key.png" />
+    <Resource Include="www\_libs\jqm\demos\docs\toolbars\glyphish-icons\34-coffee.png" />
+    <Resource Include="www\_libs\jqm\demos\docs\toolbars\glyphish-icons\88-beermug.png" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\glyphish-icons\Read me first - license.txt" />
+    <Resource Include="www\_libs\jqm\demos\docs\toolbars\images\photo-run.jpeg" />
+    <Content Include="www\_libs\jqm\demos\docs\toolbars\index.html" />
+    <Content Include="www\_libs\jqm\demos\docs\_assets\css\jqm-docs.css" />
+    <Resource Include="www\_libs\jqm\demos\docs\_assets\images\ios_icon.png" />
+    <Resource Include="www\_libs\jqm\demos\docs\_assets\images\ios_startup.png" />
+    <Resource Include="www\_libs\jqm\demos\docs\_assets\images\jqm-sitebg.png" />
+    <Resource Include="www\_libs\jqm\demos\docs\_assets\images\jquery-logo.png" />
+    <Resource Include="www\_libs\jqm\demos\docs\_assets\images\mobile-devices.png" />
+    <Resource Include="www\_libs\jqm\demos\docs\_assets\images\px-ccc.gif" />
+    <Resource Include="www\_libs\jqm\demos\docs\_assets\images\themroller-mobile-logo.png" />
+    <Resource Include="www\_libs\jqm\demos\docs\_assets\images\version.png" />
+    <Content Include="www\_libs\jqm\demos\docs\_assets\js\jqm-docs.js" />
+    <Content Include="www\_libs\jqm\demos\docs\_assets\js\_viewsource.js" />
+    <Content Include="www\_libs\jqm\demos\index.html" />
+    <Content Include="www\_libs\jqm\demos\js\jquery.js" />
+    <Content Include="www\_libs\jqm\demos\js\jquery.mobile-1.1.0.js" />
+    <Content Include="www\_libs\jqm\demos\js\jquery.mobile-1.1.0.min.js" />
+    <Resource Include="www\_libs\jqm\images\ajax-loader.gif" />
+    <Resource Include="www\_libs\jqm\images\ajax-loader.png" />
+    <Resource Include="www\_libs\jqm\images\icons-18-black.png" />
+    <Resource Include="www\_libs\jqm\images\icons-18-white.png" />
+    <Resource Include="www\_libs\jqm\images\icons-36-black.png" />
+    <Resource Include="www\_libs\jqm\images\icons-36-white.png" />
+    <Content Include="www\_libs\jqm\jquery-1.7.2.min.js" />
+    <Content Include="www\_libs\jqm\jquery.mobile-1.1.0.css" />
+    <Content Include="www\_libs\jqm\jquery.mobile-1.1.0.js" />
+    <Content Include="www\_libs\jqm\jquery.mobile-1.1.0.min.css" />
+    <Content Include="www\_libs\jqm\jquery.mobile-1.1.0.min.js" />
+    <Content Include="www\_libs\jqm\jquery.mobile.structure-1.1.0.css" />
+    <Content Include="www\_libs\jqm\jquery.mobile.structure-1.1.0.min.css" />
+    <Content Include="www\_libs\jqm\jquery.mobile.theme-1.1.0.css" />
+    <Content Include="www\_libs\jqm\jquery.mobile.theme-1.1.0.min.css" />
+    <None Include="BuildManifestProcessor.js" />
+    <Content Include="GapLib\WP7CordovaClassLib.dll" />
+    <Content Include="www\cordova-1.7.0.js" />
+    <None Include="Properties\AppManifest.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\WMAppManifest.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="www\_libs\jqm\demos\docs\forms\forms-sample-response.php" />
+    <None Include="www\_libs\jqm\demos\docs\forms\forms-sample-selfsubmit.php" />
+    <None Include="www\_libs\jqm\demos\docs\pages\dynamic-samples\category.php" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ApplicationIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Background.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SplashScreenImage.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Plugins\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions />
+  <PropertyGroup>
+    <PreBuildEvent>CScript "$(ProjectDir)/BuildManifestProcessor.js" "$(ProjectPath)"</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
