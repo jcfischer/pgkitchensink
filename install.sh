@@ -68,3 +68,18 @@ cp -R www/* native/iOS/KitchenSink/www
 cp -R _libs native/iOS/KitchenSink/www
 rm -r native/iOS/KitchenSink/www/_libs/phonegap
 
+
+
+
+
+echo
+echo "###############################"
+echo "#"
+echo "# Copying files to the Android project"
+echo "#"
+echo "###############################"
+cp -R www/* native/Android/KitchenSink/assets/www
+cp -R _libs native/Android/KitchenSink/assets/www
+rm -r native/Android/KitchenSink/assets/www/_libs/phonegap
+mv native/Android/KitchenSink/assets/www/_libs native/Android/KitchenSink/assets/www/libs_
+
