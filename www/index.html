@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>PhoneGap Kitchen Sink</title>
+<meta charset="utf-8">
+
+<script src="libs/jqm/jquery.js"></script>
+<script src="libs/jqm/jquery.mobile-1.3.2.min.js"></script>
+<script src="phonegap.js"></script>
+<script src="js/index.js"></script>
+<script src="js/seedrandom-min.js"></script>
+
+<link href="libs/jqm/jquery.mobile-1.3.2.min.css" rel="stylesheet" type="text/css">
+<link href="css/app.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div data-role="page" id="mainPage">
+    <div data-role="header" data-position="fixed">
+        <h1>PG Kitchen Sink</h1>
+    </div>
+    <div data-role="content">
+        <ul data-role="listview">
+            <li><a href="#accelerometer">Accelerometer</a></li>
+            <li><a href="#camera">Camera</a></li>
+            <li><a href="#compass">Compass</a></li>
+            <li><a href="#connection">Connection</a></li>
+            <li><a href="#contacts">Contacts</a></li>
+            <li><a href="#device">Device</a></li>
+            <li><a href="#file">File</a></li>
+            <li><a href="#geolocation">Geolocation</a></li>
+            <li><a href="#media">Media</a></li>
+            <li><a href="#notification">Notification</a></li>
+            <li><a href="#storage">Storage</a></li>
+        </ul>
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h4>&copy; http://mobile-training.ch</h4>
+    </div>
+</div>
+
+<div data-role="page" id="accelerometer">
+    <div data-role="header" data-position="fixed">
+        <a href="#" data-rel="back" data-icon="back">Back</a>
+
+        <h1>Accelerometer</h1>
+    </div>
+    <div data-role="content">
+        <ul data-role="listview">
+            <li>X: <span id="accel_x"></span></li>
+            <li>Y: <span id="accel_y"></span></li>
+            <li>Z: <span id="accel_z"></span></li>
+            <li>Timestamp: <span id="accel_timestamp"></span></li>
+        </ul>
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h4>&copy; http://mobile-training.ch</h4>
+    </div>
+</div>
+
+
+<div data-role="page" id="camera">
+    <div data-role="header" data-position="fixed">
+        <a href="#" data-rel="back" data-icon="back">Back</a>
+
+        <h1>Camera</h1>
+    </div>
+    <div data-role="content">
+        <a href="#" id="camera_button_normal" data-role="button">Camera</a>
+        <a href="#" id="camera_button_edit" data-role="button">Camera (Edit)</a>
+        <a href="#" id="camera_button_library" data-role="button">Library</a>
+        <img id="camera_img" width="300" alt="Image will be shown here" src="about:blank"/>
+
+
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h4>&copy; http://mobile-training.ch</h4>
+    </div>
+</div>
+
+<div data-role="page" id="capture">
+    <div data-role="header" data-position="fixed">
+        <a href="#" data-rel="back" data-icon="back">Back</a>
+
+        <h1>Capture</h1>
+    </div>
+    <div data-role="content">
+
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h4>&copy; http://mobile-training.ch</h4>
+    </div>
+</div>
+
+<div data-role="page" id="compass">
+    <div data-role="header" data-position="fixed">
+        <a href="#" data-rel="back" data-icon="back">Back</a>
+
+        <h1>Compass</h1>
+    </div>
+    <div data-role="content">
+        <div id="heading">Waiting for heading...</div>
+        <img id="compass_img" src="img/Compass-Rose.png" alt="Image of the
+        compass"/>
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h4>&copy; http://mobile-training.ch</h4>
+    </div>
+</div>
+
+<div data-role="page" id="connection">
+    <div data-role="header" data-position="fixed">
+        <a href="#" data-rel="back" data-icon="back">Back</a>
+
+        <h1>Connection</h1>
+    </div>
+    <div data-role="content">
+        <p>Type: </p><p><span id="connection_status">Unknown</span></p>
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h4>&copy; http://mobile-training.ch</h4>
+    </div>
+</div>
+
+<div data-role="page" id="device">
+    <div data-role="header" data-position="fixed">
+        <a href="#" data-rel="back" data-icon="back">Back</a>
+
+        <h1>Device</h1>
+    </div>
+    <div data-role="content">
+        <p>Name: <span id="device_name">Unknown</span></p>
+        <p>Phonegap: <span id="device_phonegap">Unknown</span></p>
+        <p>Platform: <span id="device_platform">Unknown</span></p>
+        <p>UUID: <span id="device_uuid">Unknown</span></p>
+        <p>Version: <span id="device_version">Unknown</span></p>
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h4>&copy; http://mobile-training.ch</h4>
+    </div>
+</div>
+
+<div data-role="page" id="contacts">
+    <div data-role="header" data-position="fixed">
+        <a href="#" data-rel="back" data-icon="back">Back</a>
+
+        <h1>Contacts</h1>
+    </div>
+    <div data-role="content">
+        <ul data-role="listview" id="contactslist">
+        </ul>
+
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h4>&copy; http://mobile-training.ch</h4>
+    </div>
+</div>
+
+<div data-role="page" id="contactdetail">
+    <div data-role="header" data-position="fixed">
+        <a href="#" data-rel="back" data-icon="back">Back</a>
+
+        <h1>Contact Detail</h1>
+    </div>
+    <div>
+        <ul data-role="listview" id="contactdata">
+        </ul>
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h4>&copy; http://mobile-training.ch</h4>
+    </div>
+</div>
+
+
+<div data-role="page" id="events">
+    <div data-role="header" data-position="fixed">
+        <a href="#" data-rel="back" data-icon="back">Back</a>
+
+        <h1>Events</h1>
+    </div>
+    <div data-role="content">
+
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h4>&copy; http://mobile-training.ch</h4>
+    </div>
+</div>
+<div data-role="page" id="file">
+    <div data-role="header" data-position="fixed">
+        <a href="#" data-rel="back" data-icon="back">Back</a>
+
+        <h1>File</h1>
+    </div>
+    <div data-role="content">
+        <a data-role="button" id="createFileButton">Create file</a>
+        <a data-role="button" id="readFileButton">Read file</a>
+        <a data-role="button" id="fileInfoButton">Show file info</a>
+        <a data-role="button" id="deleteFileButton">Delete file</a>
+        <div id="fileOutput"></div>
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h4>&copy; http://mobile-training.ch</h4>
+    </div>
+</div>
+
+<div data-role="page" id="geolocation">
+    <div data-role="header" data-position="fixed">
+        <a href="#" data-rel="back" data-icon="back">Back</a>
+
+        <h1>Geolocation</h1>
+    </div>
+    <div data-role="content">
+        <ul data-role="listview">
+            <li>Latitude: <span id="geo_lat"></span></li>
+            <li>Longitude: <span id="geo_long"></span></li>
+            <li>Altitude: <span id="geo_alt"></span></li>
+            <li>Accuracy: <span id="geo_acc"></span></li>
+            <li>Alt. Accuracy: <span id="geo_altacc"></span></li>
+            <li>Heading: <span id="geo_heading"></span></li>
+            <li>Speed: <span id="geo_speed"></span></li>
+            <li>Timestamp: <span id="geo_timestamp"></span></li>
+        </ul>
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h4>&copy; http://mobile-training.ch</h4>
+    </div>
+</div>
+
+
+<div data-role="page" id="media">
+    <div data-role="header" data-position="fixed">
+        <a href="#" data-rel="back" data-icon="back">Back</a>
+
+        <h1>Media</h1>
+    </div>
+    <div data-role="content">
+        <a data-role="button" id="recordButton">Record</a>
+        <a data-role="button" id="stopButton">Stop</a>
+        <a data-role="button" id="playButton">Play</a>
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h4>&copy; http://mobile-training.ch</h4>
+    </div>
+</div>
+
+<div data-role="page" id="notification">
+    <div data-role="header" data-position="fixed">
+        <a href="#" data-rel="back" data-icon="back">Back</a>
+
+        <h1>Notification</h1>
+    </div>
+    <div data-role="content">
+        <ul data-role="listview">
+            <li><a href="#" id="notification_alert">Alert</a></li>
+            <li><a href="#" id="notification_confirm">Confirm</a></li>
+            <li><a href="#" id="notification_beep">Beep</a></li>
+            <li><a href="#" id="notification_vibrate">Vibrate</a></li>
+        </ul>
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h4>&copy; http://mobile-training.ch</h4>
+    </div>
+</div>
+
+<div data-role="page" id="storage">
+    <div data-role="header" data-position="fixed">
+        <a href="#" data-rel="back" data-icon="back">Back</a>
+        <h1>Storage</h1>
+    </div>
+    <div data-role="content">
+        <a data-role="button" id="storeButton">Store data</a>
+        <a data-role="button" id="readButton">Read data</a>
+        <div id="localDataOutput"></div>
+        <div id="sessionDataOutput"></div>
+        <div id="dbDataOutput"></div>
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h4>&copy; http://mobile-training.ch</h4>
+    </div>
+</div>
+</body>
+</html>
+
