@@ -21,14 +21,6 @@ included in the PhoneGap bridge:
 - Media
 - Notification
 
-How to Use
-----------
-
-This application should be copied "as is" in the `www` folder of the
-mobile application project to be wrapped using PhoneGap. Then, [follow
-the instructions][2] that correspond to the corresponding mobile
-platform, and you are done!
-
 Copyrights
 ----------
 
